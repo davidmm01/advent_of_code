@@ -23,6 +23,15 @@ int main(){
             // part 2
             while (fuel > 0) {
                 
+                /*
+                    interesting GOTCHA!
+                    before this solution i had 
+                        int fuel = (fuel / 3) - 2;
+                    So both using and reassigning over the fuel variable (fuels_fuel did not exist, also fuels_fuel is a TERRIBLE variable name)
+                    This didn't work.  The value of fuel would never change and i got stuck in an infinite loop.
+                    TODO: find out why!
+                */
+
                 int fuels_fuel = (fuel / 3) - 2;
 
                 if (fuels_fuel > 0){
