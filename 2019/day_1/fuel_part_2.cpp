@@ -45,6 +45,9 @@ int main(){
 
     std::cout << "total fuel required: ";
     std::cout << fuel_required << std::endl;
+
+    // TODO: gotta close the file nicely
+
     return 0;
 
 }
