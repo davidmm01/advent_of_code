@@ -13,3 +13,9 @@ See [advent-of-code-day-3](https://adventofcode.com/2019/day/3)
 5. represent the path of the first wire by 1's in the grid
 6. map out the second wire, and each time i piece of wire is placed, check if it intersects with the existing wire.  Record the intersection coordinates separately.  No need to record this mapping, since we don't care about self-intersection
 7. Go through our recorded intersections and find the distance from each of the intersections to the central port.
+
+## Part 2
+
+### Plan of attack
+
+Build off of part 1, except record the step count in the matrix instead of just 1's.  Apply the same logic to the second wire, and we should be good to go.

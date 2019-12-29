@@ -24,6 +24,9 @@ int main(){
     // would be better to use a key&value lookup to track where has been navigated to so far, but with less zeroes everywhere.
     // in python id use a dictionary of dictionaries.
 
+    // also in hindsight, hardcoding all these dimensions is so bad.  better to iterate through input and determine an appropriately sized
+    // matrix. then calculate midpoints etc from that.  but we are aiming for progress not perfection right now :P
+
     // grab the first line of the input file and break it into an iterable vector
     getline(input_file, line_read);
     std::stringstream ss(line_read);
