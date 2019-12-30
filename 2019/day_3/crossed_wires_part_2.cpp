@@ -155,12 +155,6 @@ int main(){
                     for(std::size_t i=0; i<intersections.size(); i++){
                         if (intersections[i][0]==x_cursor and intersections[i][1]==y_cursor){
                             found = 1;
-                                                        std::cout << "FOUND A PREEXISTING at: (";
-                            std::cout << x_cursor;
-                            std::cout << ",";
-                            std::cout << y_cursor;
-                            std::cout << ")\n";
-
                             break;
                         }
                     }
