@@ -1,1 +1,5 @@
-Using this as a way to learn some C++ programming!
+Progress
+
+2019 - did some with C++
+
+2021 - python?
