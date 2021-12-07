@@ -99,7 +99,7 @@ def part_1():
         if coord_pair.is_vert_or_hori_line():
             map_.write_points(coord_pair.make_vert_or_hori_line())
     print("Part 1:", map_.saturated_points(2))
-    # soultion == 5774
+    # solution == 5774
 
 
 def part_2():
@@ -108,7 +108,7 @@ def part_2():
     for coord_pair in coord_pairs:
         map_.write_points(coord_pair.make_vert_hori_diag_line())
     print("Part 2:", map_.saturated_points(2))
-    # soultion == 18423
+    # solution == 18423
 
 
 def main():
