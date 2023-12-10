@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func main() {
+func part1() {
 	in, err := os.ReadFile("input.txt")
 	if err != nil {
 		log.Fatal("couldn't even read the file dave wtf")
@@ -24,13 +24,9 @@ func main() {
 		if err != nil {
 			log.Fatal("Can't get game id from input line")
 		}
-		fmt.Println(id)
 
 		if areGamesPossible(line) {
-			fmt.Printf("Game %d was possible\n", id)
 			sum += id
-		} else {
-			fmt.Printf("Game %d was not possbile\n", id)
 		}
 	}
 
@@ -64,9 +60,6 @@ func isGamePossible(game string, regex *regexp.Regexp, max int) bool {
 		if err != nil {
 			log.Fatalf("couldnt convert string to int: %s", m[1])
 		}
-		fmt.Println("game:", game)
-		fmt.Println("asInt:", asInt)
-		fmt.Println("max:", max)
 		return asInt <= max
 	}
 	return true
@@ -84,4 +77,67 @@ func areGamesPossible(line string) bool {
 	}
 
 	return true
+}
+
+func getColourRequired(game string, regex *regexp.Regexp) int {
+	m := regex.FindStringSubmatch(game)
+	if len(m) > 0 {
+		asInt, err := strconv.Atoi(m[1])
+		if err != nil {
+			log.Fatalf("couldnt convert string to int: %s", m[1])
+		}
+		return asInt
+	}
+	return 0
+}
+
+func getRequired(line string) (int, int, int) {
+	postColon := strings.Split(line, ":")[1]
+	games := strings.Split(postColon, ";")
+
+	blueMin := 0
+	greenMin := 0
+	redMin := 0
+
+	for _, game := range games {
+		blueRequired := getColourRequired(game, blueRegex)
+		greenRequired := getColourRequired(game, greenRegex)
+		redRequired := getColourRequired(game, redRegex)
+
+		if blueRequired > blueMin {
+			blueMin = blueRequired
+		}
+		if greenRequired > greenMin {
+			greenMin = greenRequired
+		}
+		if redRequired > redMin {
+			redMin = redRequired
+		}
+	}
+
+	return blueMin, greenMin, redMin
+}
+
+func part2() {
+	in, err := os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatal("couldn't even read the file dave wtf")
+	}
+
+	lines := strings.Split(string(in), "\n")
+
+	sum := 0
+
+	for _, line := range lines {
+		blueMinRequired, greenMinRequired, redMinRequired := getRequired(line)
+		cubePower := blueMinRequired * greenMinRequired * redMinRequired
+		sum += cubePower
+	}
+
+	fmt.Println("Part 2 - sum:", sum)
+}
+
+func main() {
+	part1()
+	part2()
 }
