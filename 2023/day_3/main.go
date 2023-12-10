@@ -34,7 +34,76 @@ func main() {
 		}
 	}
 
-	fmt.Println("Part 1 - sum:", sum)
+	fmt.Println("Part 1 - part number sum:", sum)
+
+	gearMatrix := getGearMatrix(lines)
+	for _, number := range numbers {
+		adjacentGears := getAdjacentGears(lines, number)
+		for _, adjacentGear := range adjacentGears {
+			gearMatrix[adjacentGear.yCoord][adjacentGear.xCoord].adjacentNumbers = append(gearMatrix[adjacentGear.yCoord][adjacentGear.xCoord].adjacentNumbers, number)
+		}
+	}
+
+	gearRatioSum := 0
+
+	for y := 0; y <= yCoordMax; y++ {
+		for x := 0; x <= xCoordMax; x++ {
+			if gearMatrix[y][x] != nil {
+				if len(gearMatrix[y][x].adjacentNumbers) == 2 {
+					gearRatio := gearMatrix[y][x].adjacentNumbers[0].value * gearMatrix[y][x].adjacentNumbers[1].value
+					gearRatioSum += gearRatio
+				}
+			}
+		}
+	}
+
+	fmt.Println("Part 2 - gear ratio sum:", gearRatioSum)
+}
+
+type Gear struct {
+	xCoord          int
+	yCoord          int
+	adjacentNumbers []Number
+}
+
+func getGearMatrix(lines []string) [][]*Gear {
+	gears := make([][]*Gear, len(lines))
+	for i := range gears {
+		gears[i] = make([]*Gear, len(lines[0]))
+	}
+
+	for y := 0; y <= yCoordMax; y++ {
+		for x := 0; x <= xCoordMax; x++ {
+			if string(lines[y][x]) == "*" {
+				gears[y][x] = &Gear{
+					xCoord:          x,
+					yCoord:          y,
+					adjacentNumbers: []Number{},
+				}
+			}
+		}
+	}
+
+	return gears
+}
+
+func getAdjacentGears(lines []string, number Number) []*Gear {
+	perimeterCoords := getPerimeterCoords(lines, number)
+
+	var adjacentGears []*Gear
+
+	for _, coord := range perimeterCoords {
+		char := string(lines[coord.y][coord.x])
+		if char == "*" {
+			adjacentGears = append(adjacentGears, &Gear{
+				xCoord:          coord.x,
+				yCoord:          coord.y,
+				adjacentNumbers: []Number{},
+			})
+		}
+	}
+
+	return adjacentGears
 }
 
 func hasAdjacentSymbol(lines []string, number Number) bool {
