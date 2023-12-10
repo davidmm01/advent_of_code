@@ -30,13 +30,8 @@ func main() {
 	sum := 0
 	for _, number := range numbers {
 		if hasAdjacentSymbol(lines, number) {
-			fmt.Printf("number %d has nearby symbol\n", number.value)
 			sum += number.value
-		} else {
-
-			fmt.Printf("number %d DOES NOT have nearby symbol\n", number.value)
 		}
-
 	}
 
 	fmt.Println("Part 1 - sum:", sum)
@@ -99,9 +94,11 @@ func getNumbers(lines []string) []Number {
 
 		for x := 0; x <= xCoordMax; x++ {
 			_, err := strconv.Atoi(string(lines[y][x]))
+			isNumber := err == nil
 
-			if err != nil || x == xCoordMax {
-
+			if !isNumber {
+				// if what we are currently looking at is not a number and we were traversing a number, then
+				// we reached the end of the number, it should be added to the list of numbers
 				if traversingNumber {
 					value, err := strconv.Atoi(lines[y][startingX:x])
 					if err != nil {
@@ -120,6 +117,31 @@ func getNumbers(lines []string) []Number {
 				continue
 			}
 
+			// special case handling, final character in the line is a number
+			if isNumber && x == xCoordMax {
+				// we must be traversing - if starting x is 0 than this must be a 1 digit number
+				if startingX == 0 {
+					startingX = x
+				}
+
+				value, err := strconv.Atoi(lines[y][startingX : x+1]) // add 1 since we didn't already count past as per previous case
+				if err != nil {
+					log.Fatal("your logic is wrong david")
+				}
+
+				numbers = append(numbers, Number{
+					value:           value,
+					startingXCoord:  startingX,
+					finishingXCoord: x + 1, // add 1 since we didn't already count past as per previous case
+					yCoord:          y,
+				})
+
+				startingX = 0
+				traversingNumber = false
+				continue
+			}
+
+			// what we saw is a number, so lets register we are traversing
 			if !traversingNumber {
 				traversingNumber = true
 				startingX = x
