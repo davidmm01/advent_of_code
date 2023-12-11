@@ -13,6 +13,7 @@ type Card struct {
 	Id             string
 	WinningNumbers map[int]bool
 	PlayingNumbers []int
+	Copies         int
 }
 
 func main() {
@@ -25,6 +26,41 @@ func main() {
 
 	cards := getCards(lines)
 
+	part1Output(cards)
+	part2Output(cards)
+}
+
+func part2Output(cards []Card) {
+	// build up all the copies
+	for cardIndex, card := range cards {
+		matches := countCardMatchingNumbers(card)
+		if matches > 0 {
+			for copy := 1; copy <= card.Copies; copy++ {
+				for winnerIndex := cardIndex + 1; winnerIndex <= cardIndex+matches; winnerIndex++ {
+					cards[winnerIndex].Copies++
+				}
+			}
+		}
+	}
+	// iterate through and count up all the copies
+	totalCards := 0
+	for _, card := range cards {
+		totalCards += card.Copies
+	}
+	fmt.Println("Part 2 - total cards:", totalCards)
+}
+
+func countCardMatchingNumbers(card Card) int {
+	count := 0
+	for _, playingNumber := range card.PlayingNumbers {
+		if card.WinningNumbers[playingNumber] {
+			count++
+		}
+	}
+	return count
+}
+
+func part1Output(cards []Card) {
 	totalPoints := 0
 	for _, card := range cards {
 		cardPoints := 0
@@ -83,6 +119,7 @@ func getCards(lines []string) (cards []Card) {
 			Id:             id,
 			WinningNumbers: winningNumbersMap,
 			PlayingNumbers: playingNumbers,
+			Copies:         1,
 		})
 
 	}
