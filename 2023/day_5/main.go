@@ -141,3 +141,31 @@ func processInput() ([]int, map[string][]xToYMap) {
 
 	return seedsToPlant, xToYMaps
 }
+
+// --- part 2 --- IDEA THAT DID NOT WORK, WAY TOO MANY OPERATIONS!!!
+// seedsToPlantPart2 := []int{}
+// for i := 0; i < len(seedsToPlant); i += 2 {
+// 	// fmt.Printf("i=%d", i)
+// 	for j := seedsToPlant[i]; j <= seedsToPlant[i]+seedsToPlant[i+1]; j++ {
+// 		seedsToPlantPart2 = append(seedsToPlantPart2, j)
+// 	}
+// }
+// fmt.Println("do i even get here?")
+
+// var locationsPart2 = []int{}
+
+// for _, seed := range seedsToPlantPart2 {
+// 	// fmt.Println("for seed:", seed)
+// 	source = seed
+// 	for _, key := range keys {
+// 		// fmt.Println("  for key:", key)
+// 		// fmt.Println("    source:", source)
+// 		source = getDestination(xToYMaps[key], source)
+// 		// fmt.Println("    destination:", source)
+
+// 	}
+// 	fmt.Println("found location:", source)
+// 	locationsPart2 = append(locationsPart2, source)
+// }
+// fmt.Println("Part 2:", slices.Min(locationsPart2))
+// NOPE! signal gets killed by OS. Clearly we cannot brute force this

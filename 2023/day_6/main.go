@@ -50,18 +50,7 @@ func part1() {
 	var waysToWin []int
 
 	for _, race := range races {
-		waysToWinRace := 0
-
-		for chargeTime := 1; chargeTime <= race.time-1; chargeTime++ { // dont bother with cases chargeTime=0 or chargeTime=time, as these will always lead to distance == 0
-			timeDriving := race.time - chargeTime
-
-			distance := chargeTime * timeDriving
-
-			if distance > race.distance {
-				waysToWinRace += 1
-			}
-		}
-		waysToWin = append(waysToWin, waysToWinRace)
+		waysToWin = append(waysToWin, waysToWinRace(race))
 	}
 
 	answer := 1
@@ -71,5 +60,31 @@ func part1() {
 	fmt.Println("Part 1:", answer)
 }
 
+func waysToWinRace(race Race) int {
+	waysToWinRace := 0
+
+	// dont bother with cases chargeTime=0 or chargeTime=time, as these will always lead to distance == 0
+	for chargeTime := 1; chargeTime <= race.time-1; chargeTime++ {
+		timeDriving := race.time - chargeTime
+
+		distance := chargeTime * timeDriving
+
+		if distance > race.distance {
+			waysToWinRace += 1
+		}
+	}
+
+	return waysToWinRace
+}
+
 func part2() {
+	// just hardcoding the input
+	race := Race{
+		time:     40817772,
+		distance: 219101213651089,
+	}
+
+	fmt.Println("Part 2:", waysToWinRace(race))
+	// lol didn't expect this to be so easy, had a good idea to use binary search to find a mix and a max, but seems that was not necessary...
+	// maybe an extension exercise one day for practise
 }
