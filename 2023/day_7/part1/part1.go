@@ -63,7 +63,6 @@ func main() {
 			handTypeStrength: handTypeStrength,
 		}
 
-		determineHandType(data[0])
 		games = append(games, game)
 	}
 
